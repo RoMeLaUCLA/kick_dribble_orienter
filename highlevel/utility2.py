@@ -31,20 +31,19 @@ def pose_cost(
         des_pose,
         bxy,
         objxy_list=np.array([[]]),
-        c_dist=10,  # Cost parameter
-        filter_dribble=False
+        c_dist_des=10,  # Cost parameter for the distance to the desired pose
+        c_dist_ball=8, # Cost parameter for the distance to the ball
         ):
-    # Filter out all dribble poses
 
     # Exclude poses which are behind the ball (don't want to attack own goal)
-    pose_xyw = pose_xyw[:, pose_xyw[0, :] < bxy[0, 0]]
+    # pose_xyw = pose_xyw[:, pose_xyw[0, :] < bxy[0, 0]]
 
     pose_xywc = np.zeros((pose_xyw.shape[1], 4))
     for i in range(pose_xyw.shape[1]):
-        cost = 0
-        cost_dist = - c_dist * dist2pts(pose_xyw[:2, i], des_pose)
+        cost_dist_des = - c_dist_des * dist2pts(pose_xyw[:2, i], des_pose)
+        cost_dist_ball = - c_dist_ball * dist2pts(pose_xyw[:2, i], bxy)
 
-        cost = cost_dist
+        cost = cost_dist_des + cost_dist_ball
     
         pose_xywc[i, :3] = pose_xyw[:3, i]
         pose_xywc[i, 3] = cost
