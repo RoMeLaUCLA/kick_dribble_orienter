@@ -1,0 +1,325 @@
+Global:
+    debug: False                #Will print out a lot of debug messages
+    unicode_tree: False         #Will Print out the touched valid behaviours
+    full_unicode_tree: False    #Will display the whole tree
+    log_data: False             #Not used
+    tree_sleep_time: 5          #sleep time between each tic of the tree 1000 slows down to more easily watch, 5 good for running limits things to 200Hz max
+    player_override: False
+    # override_player: "Goalie"  #Goalie or Outfielder
+    bt_test: False
+    calibration_mode: False
+    memory_on: True
+
+    team: "BLUE"
+    override_player: "Outfielder"  #Goalie or Outfielder
+
+########################################## VARIABLE CALCULATOR ##########################################################
+Calculator:
+    ball_posession_ring: .2
+    stop_look_up_ring: .8           #How close to be to the ball to start focusing only on the ball
+    angle_error: .4
+    pos_error: .4
+    opponent_posession_tol: .8
+    ball_vel_trigger: .1            #Averaged change in position of predicted ball pose to consider the ball to be moving
+    opponent_existance_tol: .5      
+    opponent_close_distance: .5     #Distance to kick immediately 2
+    opponent_far_distance: 2.       #Distance to line up entirely
+
+    straight_bound_max: .25          #Angle from foot that kicks start to go radially
+    
+    loose_tol_override: False        #Sets to only the foot to ball angle no body angle
+
+    overlap_tol: .4                 #Minimum Distance between goal point and opponent
+
+    #Chase Opponent with Ball From Behind Variables
+    min_chase_distance: 0.
+    max_chase_distance: 6.         
+    min_chase_offset: .75            #How much to overshoot desired position when chasing
+    max_chase_offset: 3.
+    turning_offset: 5.
+
+
+
+    goal_filter_size: 200           #Smoothing the goal position by averaging x points
+
+################################################# POSITION ERROR ########################################################
+Position_Error:
+    ball_chase: .5
+
+############################################## BALL STATE PARAMETERS ########################################################
+Ball_State:
+    maybeSeen: .125         # Number of secs before the system thinks it may see a ball and will pause its neck motion
+    surelySeen: .125       # Number of secs before the system starts tracking the ball .41
+    maybeLost: .5          # Number of secs before we stop tracking the ball and pause neck motion
+    surelyLost: 1         # Number of secs before we begin searching for ball
+    
+    prediction_offset: 5. #seconds predicted into the future -not used
+
+    prediction_filter_size: 150     #Average out ball position to help smooth out the ball prediction
+
+    velocity_threshold: .0075       #Velocity threshold to start checking if we may need to intercept the ball
+
+    min_vel_offset: .4              #Offset bounds to interpolate over for following a moving ball
+    min_vel: .1
+
+    max_vel_offset: .8
+    max_vel: 1.
+    max_ball_delta: 1.
+
+########################################### BALL SEARCH PARAMETERS ##########################################################
+Ball_Search:
+    search_timer: 4.0 # float
+    turn_timer: 8.0
+    extra_turn_secs: 1.
+
+########################################### GOALIE PARAMETERS ##########################################################
+Goalie:
+    ball_defense_ring: .5
+    ball_search_timer: 5.0 # float
+    turn_search_timer: 3.0 # float
+    ball_memory_timer: 3.0 # float
+    opponent_near_radius: 1.5 # float
+    defense_radius_w_partner: 2.
+
+##################################### KICK CALCULATIONS ###################################################################
+Kick_Calculations:
+    opponent_radius: .5
+    distance_to_post: .5            #Tolerance inside the goal posts for shots
+    posession_radius: .1            #Default offset from ball for shots
+
+    opponent_buffer: .75
+    opponent_confidence_tolerance: 0.05
+    foot_choice_offset: .1
+
+    #-----------Center Shot Variables----------
+    center_shot_pos_in_bound: 0.3 # shot location in kick bound (range: 0.0 ~ 0.5) ex) 0.5 = center of kick bound
+    center_shot_adjust: True # True - on, False - off
+
+    #-----------Filter Variables-----------
+    filter_alpha_shot: 0.005
+    filter_alpha_theta: 0.005
+    filter_ball_pose_diff_threshold: .2
+    filter_ball_goal_diff_threshold: .2
+    filter_kick_theta_diff_threshold: 1.5708
+    filter_on_off: True # True - on, False - off
+
+    #--------------Kick Offset Variables
+    future_follow_radius: 2. #Add additional buffer when ball is moving fast
+    defense_radius: .6 #.7, max power - .4 #1.5     Radius when lining up between opponent and goal
+
+    dribble_radius: -0.1
+    dribble_kick_power: .2
+
+    rage_kick_rad: .2
+
+    Kick_Angle_Cutoff: 0.25
+
+    Pass_Mode: True                 #Turn Passing On or Off
+    Always_Pass_Mode: False         #This turns off all kicks except for shots and passing
+
+    goal_localization: False        #Moves center of goal to position given by localization
+    goal_conf_tol: .4               #Minimum tolerance for placing 
+
+###################################### Free Kick Calculations #####################################################################
+Freekick_Calculations:
+    opponent_radius: 0.5            
+    posession_radius: 0.75
+    defense_radius: 2.5   
+
+################################################ MEMORY ############################################################################
+Memory:
+    confidence_tolerance: 0.5   #How confident we need to be in a robot to include it in shadow creation
+    robot_width: .5        #How large to estimate robot size for vision shadow projection
+
+    in_view_time: .5       #How long a object needs to be held in the vision cone to be considered seeable
+    out_of_view_time: .5    #How long a object needs to be out of the vision cone to be considered unseeable
+    look_at_bot_conf: 0.01  #At what confidence do we reassess robots at their expected positions
+    look_at_time: .75       
+    min_memory_time: 8
+    max_memory_time: 20
+
+################################################# LIVE UPDATES ####################################################################
+LiveUpdates:
+    LiveUpdate: True        #Allows for Parameters to be updated as the program runs, be careful to not autosave incomplete files
+    RefreshRate: 2          #Will refresh params every x seconds
+
+##################################################### KICK PARAMETERS ###############################################################
+Kick_Parameters:
+    command_frequency: .5
+
+    always_kick: False      #Will Keep the kick signal high at all times
+                        #Kick in the future or not?
+    future_kick: True
+    seconds_ahead: 2.
+                                #Power Levels for Kicks
+    low_kick_power: .3
+    med_kick_power: .5
+    high_kick_power: .7
+                                #Distance markers for kicks
+    low_kick_distance: 3.
+    med_kick_distance: 7.
+    high_kick_distance: 10.     
+
+    min_offset: .1
+    low_power_offset: .2
+    med_power_offset: .3
+    max_offset: .35
+
+    min_kick_bound: .3             #.35 max at min power
+    low_kick_bound: .35
+    med_kick_bound: .45
+    max_kick_bound: .5             #.5 max at maxpower
+
+    min_kickable_tolerance: .15 #If chosen kick angle less than this, immediately go to dribble, too small to kick
+
+    wide_kick_override: True    #Allows for a side kick at any time
+
+    Placement_Kick_On: False #Use Pass points or normal placement
+
+    immediate_kick_mode: False     #Will try to kick but if unalinged will immediately dribble
+
+    opp_2_close: 0.6        #How close before we immediately dribble
+    kick_zone: .7           #Radius around the ball to enter shot clock Tree
+    dribble_time: 4.                #How long to dribble the ball for
+    kick_timeout: 800.                #How long to try to align before giving up
+    kicking_dribble_mode: True      #Will kick when walking through the ball, false just walks through
+
+    rage_kick_time: 6. #ALL_IN_KICK mode will hold kick flag high at max power and turn off ball avoidance on midlevel
+
+    ball_filter_size: 50 # Averages ball position over a time period, this is a number of samples
+
+#----------------------------------Kick Lock ------------------------------------------------------------------------------
+
+    kick_lock: True         #Will stop adjusting the kick goals when within a certain cone (Commit to the kick)
+    lock_in_distance: .5
+    lock_in_angle: .75
+
+############################################### NECK PARAMETERS #############################################################
+Neck_Parameters:
+    # NOT being used
+    look_up_timer: 8.           #Once in how many seconds to look up after only looking down
+    look_up: 1.
+    wait_to_look_up: 8.
+
+    large_r: 1.5
+    before_look_ahead: 1.8
+    look_ahead: 0.8
+    after_look_ahead: 3.0
+    angle_min: 20
+    angle_max: 100
+    force_scan: 3.
+
+##################################################### Pass Profiles ##################################################################
+Pass_Profiles:
+    Avoid_Defenders_in_Path: {th_goal: 0.,  # cost parameter associated with how large the angle to goal is
+        area: 0.0,  # cost parameter associated with r squared of circle so area
+        b_goal: 0.,  # cost parameter associated with ball distance to goal
+        opp_lam: 10.0,  # cost parameter associated with opponents blocking kicking path
+        lam1: 8,  # exponential decay parameter for opp_lam
+        t_self: 0.0,  # cost parameter associated with self orienation
+        t_lam: 0.,  # cost parameter associated with orientation of teammates and self to desired
+        lam2: 8,  # exponential decay parameter for t_lam
+        opp_beta: 0.,  # cost parameter associated with opponents distance to ball
+        lam3: 8,  # exponential decay parameter for opp_beta
+        tb_self: 0., # cost parameter associated with self distance to circle center
+        t_beta: 0.,  # cost parameter associated with teammates and self distance to circle center
+        lam4: 8,
+    }
+    Shot_Near_Goal: {th_goal: 5.,  # cost parameter associated with how large the angle to goal is
+        area: 0.1,  # cost parameter associated with r squared of circle so area
+        b_goal: 0.2,  # cost parameter associated with ball distance to goal
+        opp_lam: 0.0,  # cost parameter associated with opponents blocking kicking path
+        lam1: 8,  # exponential decay parameter for opp_lam
+        t_self: 0.0,  # cost parameter associated with self orienation
+        t_lam: 0.,  # cost parameter associated with orientation of teammates and self to desired
+        lam2: 8,  # exponential decay parameter for t_lam
+        opp_beta: 0.,  # cost parameter associated with opponents distance to ball
+        lam3: 8,  # exponential decay parameter for opp_beta
+        tb_self: 0., # cost parameter associated with self distance to circle center
+        t_beta: 0.,  # cost parameter associated with teammates and self distance to circle center
+        lam4: 8,
+    }
+    Kick_Towards_Goal: {th_goal: .8,  # cost parameter associated with how large the angle to goal is
+        area: 2.,  # cost parameter associated with r squared of circle so area
+        b_goal: 1.5,  # cost parameter associated with ball distance to goal
+        opp_lam: 0.0,  # cost parameter associated with opponents blocking kicking path
+        lam1: 8,  # exponential decay parameter for opp_lam
+        t_self: 0.0,  # cost parameter associated with self orienation
+        t_lam: 0.,  # cost parameter associated with orientation of teammates and self to desired
+        lam2: 8,  # exponential decay parameter for t_lam
+        opp_beta: 0.,  # cost parameter associated with opponents distance to ball
+        lam3: 8,  # exponential decay parameter for opp_beta
+        tb_self: 0., # cost parameter associated with self distance to circle center
+        t_beta: 0.,  # cost parameter associated with teammates and self distance to circle center
+        lam4: 8,
+    }
+    Closest_Quick_Kick: {th_goal: .0,  # cost parameter associated with how large the angle to goal is
+        area: 0.,  # cost parameter associated with r squared of circle so area
+        b_goal: 0.,  # cost parameter associated with ball distance to goal
+        opp_lam: 0.0,  # cost parameter associated with opponents blocking kicking path
+        lam1: 8,  # exponential decay parameter for opp_lam
+        t_self: 5.0,  # cost parameter associated with self orienation
+        t_lam: 0.,  # cost parameter associated with orientation of teammates and self to desired
+        lam2: 8,  # exponential decay parameter for t_lam
+        opp_beta: 0.,  # cost parameter associated with opponents distance to ball
+        lam3: 8,  # exponential decay parameter for opp_beta
+        tb_self: 0., # cost parameter associated with self distance to circle center
+        t_beta: 0.,  # cost parameter associated with teammates and self distance to circle center
+        lam4: 8,
+    }
+    Kick_Away_From_Defense: {th_goal: .0,  # cost parameter associated with how large the angle to goal is
+        area: 0.,  # cost parameter associated with r squared of circle so area
+        b_goal: 0.,  # cost parameter associated with ball distance to goal
+        opp_lam: 0.0,  # cost parameter associated with opponents blocking kicking path
+        lam1: 8,  # exponential decay parameter for opp_lam
+        t_self: 0.0,  # cost parameter associated with self orienation
+        t_lam: 0.,  # cost parameter associated with orientation of teammates and self to desired
+        lam2: 8,  # exponential decay parameter for t_lam
+        opp_beta: 10.,  # cost parameter associated with opponents distance to ball
+        lam3: 8,  # exponential decay parameter for opp_beta
+        tb_self: 0., # cost parameter associated with self distance to circle center
+        t_beta: 0.,  # cost parameter associated with teammates and self distance to circle center
+        lam4: 8,
+    }
+    Kick_To_Teammate: {th_goal: 0.,  # cost parameter associated with how large the angle to goal is
+        area: 0.,  # cost parameter associated with r squared of circle so area
+        b_goal: 0.,  # cost parameter associated with ball distance to goal
+        opp_lam: 0.0,  # cost parameter associated with opponents blocking kicking path
+        lam1: 8,  # exponential decay parameter for opp_lam
+        t_self: 0.0,  # cost parameter associated with self orienation
+        t_lam: 0.,  # cost parameter associated with orientation of teammates and self to desired
+        lam2: 8,  # exponential decay parameter for t_lam
+        opp_beta: 0.,  # cost parameter associated with opponents distance to ball
+        lam3: 8,  # exponential decay parameter for opp_beta
+        tb_self: 0., # cost parameter associated with self distance to circle center
+        t_beta: 10.,  # cost parameter associated with teammates and self distance to circle center
+        lam4: 8,
+    }
+    Dribble: {th_goal: 0.,  # cost parameter associated with how large the angle to goal is
+        area: 0.,  # cost parameter associated with r squared of circle so area
+        b_goal: .04,  # cost parameter associated with ball distance to goal
+        opp_lam: 1.0,  # cost parameter associated with opponents blocking kicking path
+        lam1: 8,  # exponential decay parameter for opp_lam
+        t_self: 2.5,  # cost parameter associated with self orienation
+        t_lam: 0.,  # cost parameter associated with orientation of teammates and self to desired
+        lam2: 8,  # exponential decay parameter for t_lam
+        opp_beta: 3.,  # cost parameter associated with opponents distance to ball
+        lam3: 8,  # exponential decay parameter for opp_beta
+        tb_self: 0.1, # cost parameter associated with self distance to circle center
+        t_beta: 0.,  # cost parameter associated with teammates and self distance to circle center
+        lam4: 8,
+    }
+    Shot: {th_goal: 10.,  # cost parameter associated with how large the angle to goal is
+        area: 0.,  # cost parameter associated with r squared of circle so area
+        b_goal: .0,  # cost parameter associated with ball distance to goal
+        opp_lam: .0,  # cost parameter associated with opponents blocking kicking path
+        lam1: 0,  # exponential decay parameter for opp_lam
+        t_self: 0.,  # cost parameter associated with self orienation
+        t_lam: 0.,  # cost parameter associated with orientation of teammates and self to desired
+        lam2: 0,  # exponential decay parameter for t_lam
+        opp_beta: 0.,  # cost parameter associated with opponents distance to ball
+        lam3: 0,  # exponential decay parameter for opp_beta
+        tb_self: 0.0, # cost parameter associated with self distance to circle center
+        t_beta: 0.,  # cost parameter associated with teammates and self distance to circle center
+        lam4: 0,
+    }
